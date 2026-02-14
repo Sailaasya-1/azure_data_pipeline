@@ -2,7 +2,7 @@
 dbutils.widgets.text("p_file_date", "2021-03-21")
 v_file_date = dbutils.widgets.get("p_file_date")
 
-# COMMAND ----------
+
 
 spark.sql(f"""
               CREATE TABLE IF NOT EXISTS f1_presentation.calculated_race_results
@@ -21,7 +21,6 @@ spark.sql(f"""
               USING DELTA
 """)
 
-# COMMAND ----------
 
 spark.sql(f"""
               CREATE OR REPLACE TEMP VIEW race_result_updated
@@ -42,7 +41,7 @@ spark.sql(f"""
                  AND results.file_date = '{v_file_date}'
 """)
 
-# COMMAND ----------
+
 
 spark.sql(f"""
               MERGE INTO f1_presentation.calculated_race_results tgt
@@ -58,15 +57,5 @@ spark.sql(f"""
                      VALUES (race_year, team_name, driver_id, driver_name,race_id, position, points, calculated_points, current_timestamp)
        """)
 
-# COMMAND ----------
 
-# MAGIC %sql
-# MAGIC SELECT COUNT(1) FROM race_result_updated;
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SELECT COUNT(1) FROM f1_presentation.calculated_race_results;
-
-# COMMAND ----------
 
